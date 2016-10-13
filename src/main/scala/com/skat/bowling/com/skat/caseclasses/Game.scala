@@ -20,7 +20,7 @@ class Game() {
    * @param frameNo
    * @return The total
    */
-  def gameResultUptoFrame(frameNo: Int) = frames.slice(0, frameNo).foldRight(0)((a,b)=>a.pointsForFrame(b))
+  def gameResultUptoFrame(frameNo: Int): List[Int] = frames.slice(0, frameNo).foldLeft(List.empty[Int])((a: List[Int], b: Frame)=>a ::: List(b.pointsForFrame(if(a.isEmpty)0 else a.last)))
 
   /**
    * Calculates total for all frames

@@ -67,11 +67,12 @@ object Hello {
     game.frames(1).setThrows(Array(3))
     game.frames(2).setThrows(Array(10))
     game.frames(3).setThrows(Array(7,3))
+    game.frames(4).setThrows(Array(4,2))
     println(s"Result.total: ${game.gameResultTotal}")
-    println(s"Result.Upto(1): ${game.gameResultUptoFrame(1)}")
-    println(s"Result.Upto(2): ${game.gameResultUptoFrame(2)}")
-    println(s"Result.Upto(3): ${game.gameResultUptoFrame(3)}")
-    println(s"Result.Upto(4): ${game.gameResultUptoFrame(4)}")
+    //println(s"Result.Upto(1): ${game.gameResultUptoFrame(1)}")
+    //println(s"Result.Upto(2): ${game.gameResultUptoFrame(2)}")
+    //println(s"Result.Upto(3): ${game.gameResultUptoFrame(3)}")
+    //println(s"Result.Upto(4): ${game.gameResultUptoFrame(4)}")
 
     //client.url(url).post(Map("token" -> getResponse.get.token, "points" -> innerJson).toString()).onComplete {
     client.url(url).post(innerJson2).onComplete {

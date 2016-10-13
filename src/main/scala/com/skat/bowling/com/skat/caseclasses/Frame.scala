@@ -44,6 +44,8 @@ case class Frame(var throw1: Option[Int]=None,var throw2: Option[Int]=None,var  
         0
     } else
       0}
-    runningPlusThis+next
+    val r=runningPlusThis+next
+    println(s"pointsForFrame: running: $running runningPlusThis: $runningPlusThis r: $r")
+    r
   }
 }
