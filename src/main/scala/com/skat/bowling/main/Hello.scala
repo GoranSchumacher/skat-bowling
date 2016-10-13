@@ -62,12 +62,11 @@ object Hello {
     println(s"innerJson2: "+ innerJson2)
 
     val game = new Game()
-    game.frames(0).throw1=7
-    game.frames(0).throw2=3
-    game.frames(1).throw1=3
-    game.frames(2).throw1=10
-    game.frames(3).throw1=7
-    game.frames(3).throw2=3
+
+    game.frames(0).setThrows(Array(7,3))
+    game.frames(1).setThrows(Array(3))
+    game.frames(2).setThrows(Array(10))
+    game.frames(3).setThrows(Array(7,3))
     println(s"Result.total: ${game.gameResultTotal}")
     println(s"Result.Upto(1): ${game.gameResultUptoFrame(1)}")
     println(s"Result.Upto(2): ${game.gameResultUptoFrame(2)}")
