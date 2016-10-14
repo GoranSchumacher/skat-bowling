@@ -4,7 +4,7 @@ package com.skat.bowling.com.skat.caseclasses
  * @author Gøran Schumacher (GS) / Schumacher Consulting Aps
  * @version $Revision$ 13/10/2016
  */
-case class Frame(var throw1: Option[Int]=None,var throw2: Option[Int]=None,var  throw3: Option[Int]=None, nextFrame : Option[Frame]=None) {
+case class Frame(var throw1: Option[Int]=None,var throw2: Option[Int]=None, nextFrame : Option[Frame]=None) {
 
   /**
    *  Adds throws to a Frame
@@ -15,8 +15,6 @@ case class Frame(var throw1: Option[Int]=None,var throw2: Option[Int]=None,var  
       throw1=Some(throws(0))
     if(throws.size>1)
       throw2=Some(throws(1))
-    if(throws.size>2)
-      throw3=Some(throws(2))
   }
 
   /**
@@ -51,7 +49,7 @@ case class Frame(var throw1: Option[Int]=None,var throw2: Option[Int]=None,var  
         0 // Error or ball not thrown yet
     }
 
-    val runningPlusThisFrame=running+throw1.getOrElse(0)+throw2.getOrElse(0)+throw3.getOrElse(0)
+    val runningPlusThisFrame=running+throw1.getOrElse(0)+throw2.getOrElse(0)
 
     val nextFrameExtraPoints: Int = {
       if(throw1.getOrElse(0)==10) {                             // Strike
