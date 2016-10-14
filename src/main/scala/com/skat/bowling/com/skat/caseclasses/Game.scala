@@ -13,13 +13,13 @@ class Game() {
   // In essence creating a linked list
   //
   // LinkedList and DoubleLinked list are deprecated in Scala.
-  val frames = (1 to 9).foldLeft(List(Frame())) ((b: List[Frame], a: Int) => b.+:(Frame(None,None,None, Some(b.head))))
+  val frames = (1 to 10).foldLeft(List(Frame())) ((b: List[Frame], a: Int) => b.+:(Frame(None,None,None, Some(b.head))))
 
   /**
    * Calculates total for all frames
    * @return The total
    */
-  def gameResultTotal = gameResultUptoFrame(10)
+  def gameResultTotal = gameResultUptoFrame(11)
 
   /**
    * Calculates the total up to frame frameNo
