@@ -16,17 +16,23 @@ class Game() {
   val frames = (1 to 9).foldLeft(List(Frame())) ((b: List[Frame], a: Int) => b.+:(Frame(None,None,None, Some(b.head))))
 
   /**
+   * Calculates total for all frames
+   * @return The total
+   */
+  def gameResultTotal = gameResultUptoFrame(10)
+
+  /**
    * Calculates the total up to frame frameNo
    * @param frameNo
    * @return The total
    */
   def gameResultUptoFrame(frameNo: Int): List[Int] = frames.slice(0, frameNo).
-    foldLeft(List.empty[Int])((a: List[Int], b: Frame)=>a ::: List(b.pointsForFrame(if(a.isEmpty)0 else a.last)))
-
-  /**
-   * Calculates total for all frames
-   * @return The total
-   */
-  def gameResultTotal = gameResultUptoFrame(10)
+    foldLeft(List.empty[Int])((a: List[Int], b: Frame)=> {
+    if(b.throw1.isDefined) {
+      a ::: List(b.pointsForFrame(if(a.isEmpty)0 else a.last))
+    } else {
+      a
+    }
+  })
 
 }

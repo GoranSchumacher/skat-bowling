@@ -1,35 +1,16 @@
 package com.skat.bowling.main
 
 import com.ning.http.client.AsyncHttpClientConfig
-import com.skat.bowling.com.skat.caseclasses.{Game, GetResponse, PostRequest, Tuple2Int}
-import play.api.libs.json.{JsPath, Reads, Json, Writes}
-import play.api.libs.ws.{WSResponse, DefaultWSClientConfig}
+import com.skat.bowling.com.skat.caseclasses.{Game, GetResponse, PostRequest}
+import play.api.libs.ws.DefaultWSClientConfig
 import play.api.libs.ws.ning.{NingAsyncHttpClientConfigBuilder, NingWSClient}
-import play.api.libs.functional.syntax._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.reflect.macros.ParseException
-import scala.util.{Try, Success, Failure}
+import scala.util.{Failure, Success, Try}
 
 object Hello {
 
-//  implicit val getResponseWrites = new Writes[GetResponse] {
-//    def writes(getResponse: GetResponse) = Json.obj(
-//      "points" -> getResponse.points.toString(),
-//      "token" -> getResponse.token
-//    )
-//  }
-//
-//  implicit val getResponseReads: Reads[GetResponse] = (
-//    (JsPath \ "points").read[Set[Tuple2[Int, Int]]] and
-//      (JsPath \ "token").read[String]
-//    )(GetResponse.apply _)
-
   import play.api.libs.json._
-//
-//  implicit def tuple2Writes[A, B](implicit a: Writes[A], b: Writes[B]): Writes[Tuple2[A, B]] = new Writes[Tuple2[A, B]] {
-//    def writes(tuple: Tuple2[A, B]) = JsArray(Seq(a.writes(tuple._1), b.writes(tuple._2)))
-//  }
 
   implicit val residentFormat = Json.format[GetResponse]
   implicit val postRequestFormat = Json.format[PostRequest]
@@ -47,7 +28,7 @@ object Hello {
         Success(s.get)
       }
       case e: JsError => {
-        Failure(new Exception("Parse Exception: " + e))
+        Failure(new Exception(s"Parse Exception: $e"))
       }
     }
 
@@ -56,37 +37,26 @@ object Hello {
     val builder = new AsyncHttpClientConfig.Builder(config)
     val client = new NingWSClient(builder.build)
 
-
     val game = new Game()
 
-    game.frames(0).setThrows(Array(7,3))
-    game.frames(1).setThrows(Array(3))
-    game.frames(2).setThrows(Array(10))
-    game.frames(3).setThrows(Array(7,3))
-    game.frames(4).setThrows(Array(4,2))
-    println(s"Result.total: ${game.gameResultTotal}")
-    //println(s"Result.Upto(1): ${game.gameResultUptoFrame(1)}")
-    //println(s"Result.Upto(2): ${game.gameResultUptoFrame(2)}")
-    //println(s"Result.Upto(3): ${game.gameResultUptoFrame(3)}")
-    //println(s"Result.Upto(4): ${game.gameResultUptoFrame(4)}")
-
-
-    //val innerJson: String = Json.toJson(game.gameResultTotal)
-    val innerJson2: String = Json.toJson(PostRequest(getResponse.get.token, game.gameResultTotal)).toString()
-    println(s"TOKEN: "+ getResponse.get.token)
-    println(s"innerJson2: "+ innerJson2)
-    //println(s"innerJson3: "+ Map("token" -> getResponse.get.token, "points" -> game.gameResultTotal).toString())
-
-    //client.url(url).post(Map("token" -> getResponse.get.token, "points" -> game.gameResultTotal).toString()).onComplete {
-    client.url(url).post(innerJson2).onComplete {
-        case Success(content) => {
-          println("Successful response: " + Json.toJson(content.body))
-        }
-        case Failure(t) => {
-          println("An error has occured: " + t.getMessage)
-        }
+    if(getResponse.isSuccess) {
+      (0 to getResponse.get.points.size-1).map { index =>
+        game.frames(index).setThrows(getResponse.get.points(index).toArray)
       }
-    //}
+    }
+    println(s"Result.total: ${game.gameResultTotal}")
 
+    val innerJson: String = Json.toJson(PostRequest(game.gameResultTotal)).toString()
+    println(s"TOKEN: ${getResponse.get.token}")
+    println(s"innerJson: ${innerJson}")
+
+    client.url(s"$url?token=${getResponse.get.token}").post(innerJson).onComplete {
+      case Success(content) => {
+        println(s"Successful response: Status: ${content.status} Body: ${content.body}")
+      }
+      case Failure(t) => {
+        println(s"An error has occured: ${t.getMessage}")
+      }
+    }
   }
 }
