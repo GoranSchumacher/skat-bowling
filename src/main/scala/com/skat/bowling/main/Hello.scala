@@ -56,10 +56,6 @@ object Hello {
     val builder = new AsyncHttpClientConfig.Builder(config)
     val client = new NingWSClient(builder.build)
 
-    //val innerJson: String = Json.toJson(PostRequest(getResponse.get.token, Set())).toString()
-    val innerJson2: String = Json.toJson(PostRequest(getResponse.get.token, Seq())).toString()
-    println(s"TOKEN: "+ getResponse.get.token)
-    println(s"innerJson2: "+ innerJson2)
 
     val game = new Game()
 
@@ -74,7 +70,14 @@ object Hello {
     //println(s"Result.Upto(3): ${game.gameResultUptoFrame(3)}")
     //println(s"Result.Upto(4): ${game.gameResultUptoFrame(4)}")
 
-    //client.url(url).post(Map("token" -> getResponse.get.token, "points" -> innerJson).toString()).onComplete {
+
+    //val innerJson: String = Json.toJson(game.gameResultTotal)
+    val innerJson2: String = Json.toJson(PostRequest(getResponse.get.token, game.gameResultTotal)).toString()
+    println(s"TOKEN: "+ getResponse.get.token)
+    println(s"innerJson2: "+ innerJson2)
+    //println(s"innerJson3: "+ Map("token" -> getResponse.get.token, "points" -> game.gameResultTotal).toString())
+
+    //client.url(url).post(Map("token" -> getResponse.get.token, "points" -> game.gameResultTotal).toString()).onComplete {
     client.url(url).post(innerJson2).onComplete {
         case Success(content) => {
           println("Successful response: " + Json.toJson(content.body))
