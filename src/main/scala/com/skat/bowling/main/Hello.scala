@@ -32,7 +32,7 @@ object Hello {
       }
     }
 
-    println("GET: " + getResponse)
+    println(s"GET: $getResponse")
     val config = new NingAsyncHttpClientConfigBuilder(DefaultWSClientConfig()).build
     val builder = new AsyncHttpClientConfig.Builder(config)
     val client = new NingWSClient(builder.build)

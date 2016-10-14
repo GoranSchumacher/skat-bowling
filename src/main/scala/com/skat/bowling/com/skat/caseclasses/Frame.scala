@@ -27,23 +27,23 @@ case class Frame(var throw1: Option[Int]=None,var throw2: Option[Int]=None,var  
   def pointsForFrame(running: Int): Int = {
     val runningPlusThis=running+throw1.getOrElse(0)+throw2.getOrElse(0)+throw3.getOrElse(0)
     val next: Int = {
-      if(throw1.getOrElse(0)==10) {
+      if(throw1.getOrElse(0)==10) {                             // Strike
         if(nextFrame.isDefined) {
-          nextFrame.get.throw1.getOrElse(0)+
+          nextFrame.get.throw1.getOrElse(0)+                    //First extra point
             (if(nextFrame.get.throw2.isDefined) {
-              nextFrame.get.throw2.get
+              nextFrame.get.throw2.get                          // Second extra point
             } else {
-              0}) // Error
+              0}) // Error or ball not thrown yet
         } else {
-          0   // Error
+          0       // Error or ball not thrown yet
         }
-    } else if((throw1.getOrElse(0)+throw2.getOrElse(0))==10) {
+    } else if((throw1.getOrElse(0)+throw2.getOrElse(0))==10) {  // Spare
       if(nextFrame.isDefined)
-        nextFrame.get.throw1.getOrElse(0)
+        nextFrame.get.throw1.getOrElse(0)                       //First extra point
       else
-        0
+        0         // Error or ball not thrown yet
     } else
-      0
+      0           // Error or ball not thrown yet
     }
     runningPlusThis+next
   }
