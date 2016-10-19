@@ -1,8 +1,7 @@
 package com.skat.bowling.main
 
 import com.ning.http.client.AsyncHttpClientConfig
-import com.skat.bowling.caseclasses.{PostRequest, GetResponse, Game}
-import com.skat.bowling.com.skat.caseclasses.PostRequest
+import com.skat.bowling.caseclasses.{Game, GetResponse, PostRequest}
 import play.api.libs.ws.DefaultWSClientConfig
 import play.api.libs.ws.ning.{NingAsyncHttpClientConfigBuilder, NingWSClient}
 
