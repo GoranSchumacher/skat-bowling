@@ -58,5 +58,7 @@ object Main {
         println(s"An error has occured: ${t.getMessage}")
       }
     }
+    Thread.sleep(5000)
+    client.close()
   }
 }
