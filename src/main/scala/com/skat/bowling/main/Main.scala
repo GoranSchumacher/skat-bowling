@@ -1,14 +1,15 @@
 package com.skat.bowling.main
 
 import com.ning.http.client.AsyncHttpClientConfig
-import com.skat.bowling.com.skat.caseclasses.{Game, GetResponse, PostRequest}
+import com.skat.bowling.caseclasses.{PostRequest, GetResponse, Game}
+import com.skat.bowling.com.skat.caseclasses.PostRequest
 import play.api.libs.ws.DefaultWSClientConfig
 import play.api.libs.ws.ning.{NingAsyncHttpClientConfigBuilder, NingWSClient}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success, Try}
 
-object Hello {
+object Main {
 
   import play.api.libs.json._
 
@@ -37,7 +38,7 @@ object Hello {
     val builder = new AsyncHttpClientConfig.Builder(config)
     val client = new NingWSClient(builder.build)
 
-    val game = new Game()
+    val game = new Game
 
     if(getResponse.isSuccess) {
       (0 to getResponse.get.points.size-1).map { index =>

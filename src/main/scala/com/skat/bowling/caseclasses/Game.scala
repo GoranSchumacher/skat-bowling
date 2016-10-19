@@ -1,10 +1,10 @@
-package com.skat.bowling.com.skat.caseclasses
+package com.skat.bowling.caseclasses
 
 /**
  * @author Gøran Schumacher (GS) / Schumacher Consulting Aps
  * @version $Revision$ 13/10/2016
  */
-class Game() {
+class Game {
 
   // Start with the 10th frame, the seed to the foldRight method
   // Add frame 1 to 9 BEFORE the seed.

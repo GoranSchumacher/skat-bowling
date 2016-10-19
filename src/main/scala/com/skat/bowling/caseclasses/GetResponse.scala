@@ -1,4 +1,4 @@
-package com.skat.bowling.com.skat.caseclasses
+package com.skat.bowling.caseclasses
 
 /**
  * @author Gøran Schumacher (GS) / Schumacher Consulting Aps

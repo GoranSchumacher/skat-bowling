@@ -1,4 +1,4 @@
-package com.skat.bowling.com.skat.caseclasses
+package com.skat.bowling.caseclasses
 
 /**
  * @author Gøran Schumacher (GS) / Schumacher Consulting Aps
@@ -49,8 +49,6 @@ case class Frame(var throw1: Option[Int]=None,var throw2: Option[Int]=None, next
         0 // Error or ball not thrown yet
     }
 
-    val runningPlusThisFrame=running+throw1.getOrElse(0)+throw2.getOrElse(0)
-
     val nextFrameExtraPoints: Int = {
       if(throw1.getOrElse(0)==10) {                             // Strike
         calculateStrike
@@ -59,7 +57,7 @@ case class Frame(var throw1: Option[Int]=None,var throw2: Option[Int]=None, next
     } else
       0           // Error or ball not thrown yet
     }
-    runningPlusThisFrame+nextFrameExtraPoints
+    running+throw1.getOrElse(0)+throw2.getOrElse(0)+nextFrameExtraPoints
 
   }
 }
