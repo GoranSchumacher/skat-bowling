@@ -1,5 +1,7 @@
 package com.skat.bowling.caseclasses
 
+import scala.util.Try
+
 /**
  * @author Gøran Schumacher (GS) / Schumacher Consulting Aps
  * @version $Revision$ 13/10/2016
@@ -34,5 +36,18 @@ class Game {
       a
     }
   })
+}
 
+object Game {
+
+  def createFromFrameResult(getResponse: Try[GetResponse]): Game = {
+    val game = new Game
+
+    if (getResponse.isSuccess) {
+      (0 to getResponse.get.points.size - 1).map { index =>
+        game.frames(index).setThrows(getResponse.get.points(index).toArray)
+      }
+    }
+    game
+  }
 }

@@ -1,6 +1,6 @@
 package com.skat.bowling.main
 
-import com.ning.http.client.AsyncHttpClientConfig
+import com.ning.http.client.AsyncHttpClientConfig.Builder
 import com.skat.bowling.caseclasses.{Game, GetResponse, PostRequest}
 import play.api.libs.ws.DefaultWSClientConfig
 import play.api.libs.ws.ning.{NingAsyncHttpClientConfigBuilder, NingWSClient}
@@ -34,16 +34,10 @@ object Main {
 
     println(s"GET: $getResponse")
     val config = new NingAsyncHttpClientConfigBuilder(DefaultWSClientConfig()).build
-    val builder = new AsyncHttpClientConfig.Builder(config)
+    val builder = new Builder(config)
     val client = new NingWSClient(builder.build)
 
-    val game = new Game
-
-    if(getResponse.isSuccess) {
-      (0 to getResponse.get.points.size-1).map { index =>
-        game.frames(index).setThrows(getResponse.get.points(index).toArray)
-      }
-    }
+    val game = Game.createFromFrameResult(getResponse)
     println(s"Result.total: ${game.gameResultTotal}")
 
     val innerJson: String = Json.toJson(PostRequest(game.gameResultTotal)).toString()
@@ -61,4 +55,5 @@ object Main {
     Thread.sleep(5000)
     client.close()
   }
+
 }
