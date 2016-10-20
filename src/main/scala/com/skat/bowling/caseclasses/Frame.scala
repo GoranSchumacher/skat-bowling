@@ -6,15 +6,18 @@ package com.skat.bowling.caseclasses
  */
 case class Frame(var throw1: Option[Int]=None,var throw2: Option[Int]=None, nextFrame : Option[Frame]=None) {
 
+  implicit def implicitToOption[A](any: A): Option[A] = Some(any)
+
   /**
    *  Adds throws to a Frame
    * @param throws The throws to be registered
    */
   def setThrows(throws: Array[Int]) = {
+
     if(throws.size>0)
-      throw1=Some(throws(0))
+      throw1=throws(0)
     if(throws.size>1)
-      throw2=Some(throws(1))
+      throw2=throws(1)
   }
 
   /**
